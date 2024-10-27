@@ -18,18 +18,7 @@
     <p>메뉴에서 페이지를 선택하세요.</p>
 </div>
 
-<script>
-    function loadPage(page) {
-        fetch(page)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("content").innerHTML = data;
-            })
-            .catch(error => {
-                console.error("페이지 로드 중 오류 발생:", error);
-            });
-    }
-</script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
