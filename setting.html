@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기본 정보 입력 화면</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<table>
+  <h1>기본 정보</h1>
+  <tr>
+    <th>시간/요일</th>
+    <th>월</th>
+    <th>화</th>
+    <th>수</th>
+    <th>목</th>
+    <th>금</th>
+  </tr>
+  <tr>
+    <td>17:30</td>
+    <td><input type="number" id="mon-17:30" min="0"></td>
+    <td><input type="number" id="tue-17:30" min="0"></td>
+    <td><input type="number" id="wed-17:30" min="0"></td>
+    <td><input type="number" id="thu-17:30" min="0"></td>
+    <td><input type="number" id="fri-17:30" min="0"></td>
+  </tr>
+  <tr>
+    <td>19:30</td>
+    <td><input type="number" id="mon-19:30" min="0"></td>
+    <td><input type="number" id="tue-19:30" min="0"></td>
+    <td><input type="number" id="wed-19:30" min="0"></td>
+    <td><input type="number" id="thu-19:30" min="0"></td>
+    <td><input type="number" id="fri-19:30" min="0"></td>
+  </tr>
+</table>
+
+<button onclick="saveData()">저장</button>
+
+<script>
+  function saveData() {
+    const days = ["mon", "tue", "wed", "thu", "fri"];
+    const times = ["17:30", "19:30"];
+  }
+</script>
+</body>
+</html>

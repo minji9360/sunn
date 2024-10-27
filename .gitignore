@@ -1,0 +1,10 @@
+# IDE files
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env

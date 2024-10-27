@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약 화면</title>
+    <link rel="stylesheet" href="css/style.css">
+<body>
+<h1>신청자 정보</h1>
+<table>
+    <tr>
+        <th>월</th>
+        <th>화</th>
+        <th>수</th>
+        <th>목</th>
+        <th>금</th>
+    </tr>
+    <tr>
+        <td data-time="17:30">17:30</td>
+        <td data-time="17:30">17:30</td>
+        <td data-time="17:30">17:30</td>
+        <td data-time="17:30">17:30</td>
+        <td data-time="17:30">17:30</td>
+    </tr>
+    <tr>
+        <td data-time="19:30">19:30</td>
+        <td data-time="19:30">19:30</td>
+        <td data-time="19:30">19:30</td>
+        <td data-time="19:30">19:30</td>
+        <td data-time="19:30">19:30</td>
+    </tr>
+</table>
+
+<input type="text" id="nameInput" placeholder="이름을 입력하세요">
+<button onclick="register()">등록</button>
+
+<script>
+    function register() {
+        const name = document.getElementById("nameInput").value;
+        if (!name) {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+    }
+</script>
+</body>
+</html>

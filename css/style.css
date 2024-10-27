@@ -1,0 +1,91 @@
+/* style.css */
+
+/* 전체 레이아웃 */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* 메뉴 스타일 */
+.menu {
+    display: flex;
+    justify-content: center;
+    background-color: #4CAF50;
+    padding: 15px 0;
+}
+
+.menu button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu button:hover {
+    background-color: #45a049;
+}
+
+/* 콘텐츠 영역 */
+.content {
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+/* 공통 제목 스타일 */
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* 테이블 스타일 */
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* 삭제 버튼 */
+.delete-btn {
+    color: red;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* 공통 버튼 스타일 */
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    box-sizing: border-box;
+}
