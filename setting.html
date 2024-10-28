@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>기본 정보 입력 화면</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+<!-- setting.html -->
+<h1>기본 정보</h1>
 <table>
-  <h1>기본 정보</h1>
   <tr>
     <th>시간/요일</th>
     <th>월</th>
@@ -19,23 +11,20 @@
   </tr>
   <tr>
     <td>17:30</td>
-    <td><input type="number" id="mon1" min="0"></td>
-    <td><input type="number" id="tue1" min="0"></td>
-    <td><input type="number" id="wed1" min="0"></td>
-    <td><input type="number" id="thu1" min="0"></td>
-    <td><input type="number" id="fri1" min="0"></td>
+    <td><select id="mon1"></select></td>
+    <td><select id="tue1"></select></td>
+    <td><select id="wed1"></select></td>
+    <td><select id="thu1"></select></td>
+    <td><select id="fri1"></select></td>
   </tr>
   <tr>
     <td>19:30</td>
-    <td><input type="number" id="mon2" min="0"></td>
-    <td><input type="number" id="tue2" min="0"></td>
-    <td><input type="number" id="wed2" min="0"></td>
-    <td><input type="number" id="thu2" min="0"></td>
-    <td><input type="number" id="fri2" min="0"></td>
+    <td><select id="mon2"></select></td>
+    <td><select id="tue2"></select></td>
+    <td><select id="wed2"></select></td>
+    <td><select id="thu2"></select></td>
+    <td><select id="fri2"></select></td>
   </tr>
 </table>
 
-<button onclick="saveData()">저장</button>
-
-</body>
-</html>
+<button onclick="saveSettingData()">저장</button>
