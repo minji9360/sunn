@@ -15,18 +15,21 @@ function loadPage(page) {
         .then(response => response.text())
         .then(data => {
             document.getElementById("content").innerHTML = data;
-
-            // 화면 로드된 후 select 요소에 옵션 추가
             document.querySelectorAll("select").forEach(select => {
                 select.innerHTML = createOptions();
                 select.value = "0";
             });
+
+            if (page === 'setting.html') loadScript('js/setting.js');
         })
         .catch(error => {
             console.error("페이지 로드 중 오류 발생:", error);
         });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    // 필요한 이벤트 리스너 또는 초기화 코드 추가
-});
+// 외부 스크립트를 동적으로 로드
+function loadScript(src) {
+    const script = document.createElement("script");
+    script.src = src;
+    document.head.appendChild(script);
+}
