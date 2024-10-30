@@ -1,3 +1,5 @@
+window.selectedTimes = window.selectedTimes || {};
+
 function loadSeatInfoFromCookie() {
     const cookies = document.cookie.split("; ");
     const reservationDataCookie = cookies.find(cookie => cookie.startsWith("reservationData="));
@@ -13,7 +15,6 @@ function loadSeatInfoFromCookie() {
 
 function initializeSeatSelection() {
     const seatInfo = loadSeatInfoFromCookie();
-    const selectedTimes = {};
 
     document.querySelectorAll("td[data-time]").forEach(cell => {
         const time = cell.getAttribute("data-time");
