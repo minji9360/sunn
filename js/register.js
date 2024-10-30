@@ -1,6 +1,3 @@
-window.seatInfo = window.seatInfo || loadSeatInfoFromCookie();
-window.selectedTimes = window.selectedTimes || {};
-
 function loadSeatInfoFromCookie() {
     const cookies = document.cookie.split("; ");
     const reservationDataCookie = cookies.find(cookie => cookie.startsWith("reservationData="));
@@ -14,22 +11,29 @@ function loadSeatInfoFromCookie() {
     return reservationData.seatInfo || {};
 }
 
-document.querySelectorAll("td[data-time]").forEach(cell => {
-    const time = cell.getAttribute("data-time");
+function initializeSeatSelection() {
+    const seatInfo = loadSeatInfoFromCookie();
+    const selectedTimes = {};
 
-    if (!seatInfo[time]) {
-        cell.classList.add("disabled");
-        cell.style.pointerEvents = "none";
-    } else {
-        cell.addEventListener("click", () => {
-            if (cell.classList.toggle("selected")) {
-                selectedTimes[time] = true;
-            } else {
-                delete selectedTimes[time];
-            }
-        });
-    }
-});
+    document.querySelectorAll("td[data-time]").forEach(cell => {
+        const time = cell.getAttribute("data-time");
+
+        if (!seatInfo[time]) {
+            cell.classList.add("disabled");
+            cell.style.pointerEvents = "none";
+        } else {
+            cell.classList.remove("disabled");
+            cell.style.pointerEvents = "";
+            cell.addEventListener("click", () => {
+                if (cell.classList.toggle("selected")) {
+                    selectedTimes[time] = true;
+                } else {
+                    delete selectedTimes[time];
+                }
+            });
+        }
+    });
+}
 
 function register() {
     const name = document.getElementById("nameInput").value;
@@ -38,7 +42,8 @@ function register() {
         return;
     }
 
-    // 선택된 시간 목록을 알림으로 표시
     const selectedList = Object.keys(selectedTimes).join(", ");
     alert(`등록 완료: ${name}님, 선택 시간 - ${selectedList}`);
 }
+
+initializeSeatSelection();
