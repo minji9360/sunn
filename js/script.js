@@ -18,6 +18,7 @@ function loadPage(page, buttonElement) {
         .then(data => {
             document.getElementById("content").innerHTML = data;
             if (page === 'setting.html') loadScript('js/setting.js');
+            else if (page === 'register.html') loadScript('js/register.js');
 
             updateMenuSelection(buttonElement);
         })
