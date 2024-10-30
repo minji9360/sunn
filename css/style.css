@@ -119,6 +119,16 @@ table tr:last-child td:last-child {
     border-bottom-right-radius: 10px;
 }
 
+table .selected {
+    background-color: #829683;
+    color: white;
+}
+
+table .disabled {
+    background-color: #ddd;
+    color: #888;
+}
+
 /* 삭제 버튼 */
 .delete-btn {
     color: red;
@@ -140,6 +150,19 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.initBtn {
+    background: transparent;
+    color: red;
+    font-size: 12pt;
+    padding: 5px;
+    margin: auto;
+}
+
+.initBtn:hover {
+    background: transparent;
+    color: #de0000;
 }
 
 input[type="number"], input[type="text"] {
