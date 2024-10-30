@@ -1,30 +1,16 @@
-function saveSettingData() {
-    let seatInfo = {};
-    let settingData = {};
+function createOptions() {
+    const options = [];
+    for (let i = 0; i <= 10; i++) {
+        options.push(`<option value="${i}">${i}</option>`);
+    }
+    return options.join("");
+}
 
-    days.forEach((day, index) => {
-        settingData[day] = {};
-
-        for (let i = 1; i <= times[index]; i++) {
-            const inputId = `${day}${i}`;
-            const inputElement = document.getElementById(inputId);
-
-            if (inputElement) {
-                const value = inputElement.value || "0";
-                settingData[day][i] = value;
-
-                if (value !== "0") seatInfo[inputId] = value;
-            }
-        }
+function initializeSelectOptions() {
+    document.querySelectorAll("select").forEach(select => {
+        select.innerHTML = createOptions();
+        select.value = "0";
     });
-
-    const dataToSave = {
-        seatsData: settingData,
-        seatInfo: seatInfo
-    };
-
-    document.cookie = `reservationData=${JSON.stringify(dataToSave)}; path=/; max-age=31536000`;
-    alert("좌석 정보가 저장되었습니다.");
 }
 
 function loadSettingData() {
@@ -52,4 +38,33 @@ function loadSettingData() {
     console.log("데이터가 화면에 로드되었습니다.");
 }
 
+function saveSettingData() {
+    let seatInfo = {};
+    let settingData = {};
+
+    days.forEach((day, index) => {
+        settingData[day] = {};
+        for (let i = 1; i <= times[index]; i++) {
+            const inputId = `${day}${i}`;
+            const inputElement = document.getElementById(inputId);
+            if (inputElement) {
+                const value = inputElement.value || "0";
+                settingData[day][i] = value;
+
+                if (value !== "0") seatInfo[inputId] = value;
+            }
+        }
+    });
+
+    const dataToSave = {
+        seatsData: settingData,
+        seatInfo: seatInfo
+    };
+
+    document.cookie = `reservationData=${encodeURIComponent(JSON.stringify(dataToSave))}; path=/; max-age=31536000`;
+
+    alert("좌석 정보가 저장되었습니다.");
+}
+
+initializeSelectOptions();
 loadSettingData();
