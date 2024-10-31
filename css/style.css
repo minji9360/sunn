@@ -24,10 +24,9 @@ body {
 
 /* 메뉴 */
 .menu {
-    width: 560px;
-    height: 42px;
+    width: 76%;
+    height: 2.5rem;
     padding: 2px;
-    background: rgba(0, 0, 0, 0.05);
     border-radius: 14px;
     justify-content: flex-start;
     align-items: flex-start;
@@ -36,7 +35,7 @@ body {
 
 .menuBtn {
     flex: 1 1 0;
-    height: 38px;
+    height: 2.5rem;
     padding: 8px 24px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
@@ -52,14 +51,14 @@ body {
 }
 
 .menuBtn.selected {
-    background-color: #2DA629; /* 선택된 버튼 배경색 */
-    color: #ffffff; /* 선택된 버튼 글자색 */
+    background-color: #2DA629;
+    color: #ffffff;
     font-weight: 700;
 }
 
 .menuBtn.unselected {
-    background-color: rgba(0, 0, 0, 0.1); /* 선택되지 않은 버튼 배경색 */
-    color: rgba(0, 0, 0, 0.6); /* 선택되지 않은 버튼 글자색 */
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.6);
     font-weight: 400;
 }
 
@@ -129,6 +128,14 @@ table .disabled {
     color: #888;
 }
 
+table .clickable:hover {
+    background-color: #9fb9a0;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
 /* 삭제 버튼 */
 .delete-btn {
     color: red;
@@ -156,7 +163,7 @@ button:hover {
     background: transparent;
     color: red;
     font-size: 12pt;
-    padding: 5px;
+    padding-top: 30px;
     margin: auto;
 }
 
@@ -177,4 +184,18 @@ input[type="number"], input[type="text"] {
     width: 200px;
     padding: 5px;
     box-sizing: border-box;
+}
+
+/* 모바일 화면 */
+@media (max-width: 768px) {
+    .menu {
+        width: 74%;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menuBtn {
+        width: 100%;
+    }
 }
