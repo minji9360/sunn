@@ -46,7 +46,7 @@ function register() {
     }
 
     const selectedList = Object.keys(selectedTimes).join(", ");
-    alert(`등록 완료: ${name}님, 선택 시간 - ${selectedList}`);
+    alert(`${name}님 등록 완료`);
 }
 
 initializeSeatSelection();
