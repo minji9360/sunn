@@ -136,48 +136,45 @@ table .clickable:hover {
     cursor: pointer;
 }
 
-/* 삭제 버튼 */
-.delete-btn {
-    color: red;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* 공통 버튼 */
 button {
     font-family: 'HakgyoansimNadeuriTTF-N', sans-serif;
-    padding: 10px 20px;
     cursor: pointer;
-    background-color: #4CAF50;
-    color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 15pt;
-}
-
-button:hover {
-    background-color: #45a049;
 }
 
 .initBtn {
     background: transparent;
     color: red;
     font-size: 12pt;
-    padding-top: 30px;
-    margin: auto;
+    margin-top: 30px;
 }
 
 .initBtn:hover {
-    background: transparent;
     color: #de0000;
 }
 
+.delete-btn {
+    background: transparent;
+    color: red;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13pt;
+}
+
 .regBtn {
+    background-color: #4CAF50;
+    color: #fff;
     padding: 8px 15px;
     cursor: pointer;
     border: none;
     border-radius: 7px;
     font-size: 11pt;
+}
+
+.regBtn:hover {
+    background-color: #45a049;
 }
 
 input[type="number"], input[type="text"] {
