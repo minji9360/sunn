@@ -26,16 +26,20 @@ function loadSettingData() {
     const savedData = localStorage.getItem("settingData");
 
     if (savedData) {
-        Object.assign(settingData, JSON.parse(savedData));
+        const parsedData = JSON.parse(savedData);
+        Object.assign(settingData, parsedData);
 
-        for (const inputId in settingData) {
-            const selectElement = document.getElementById(inputId);
+        days.forEach((day, index) => {
+            for (let i = 1; i <= times[index]; i++) {
+                const inputId = `${day}${i}`;
+                const selectElement = document.getElementById(inputId);
 
-            if (selectElement)
-                selectElement.value = settingData[inputId];
-            else
-                console.warn(`해당 ID를 가진 요소가 없습니다: ${inputId}`);
-        }
+                if (selectElement && parsedData[inputId] !== undefined)
+                    selectElement.value = parsedData[inputId];
+                else if (!selectElement)
+                    console.warn(`해당 ID를 가진 요소가 없습니다: ${inputId}`);
+            }
+        });
     } else {
         console.log("저장된 데이터가 없습니다.");
     }
