@@ -12,17 +12,14 @@ export function applicantListInit() {
     renderApplicantTable();
 }
 
-function loadSeatInfoFromCookie() {
-    const cookies = document.cookie.split("; ");
-    const reservationDataCookie = cookies.find(cookie => cookie.startsWith("reservationData="));
-    if (!reservationDataCookie) return {};
+function loadSeatInfoFromLocalStorage() {
+    const reservationData = localStorage.getItem("reservationData");
 
-    const reservationData = JSON.parse(decodeURIComponent(reservationDataCookie.split("=")[1]));
-    return reservationData.seatInfo || {};
+    return reservationData ? JSON.parse(reservationData).seatInfo || {} : {};
 }
 
 function renderApplicantTable() {
-    const seatInfo = loadSeatInfoFromCookie();
+    const seatInfo = loadSeatInfoFromLocalStorage();
     const applicantTableBody = document.getElementById("applicantTableBody");
 
     if (!applicantTableBody) {
@@ -71,5 +68,4 @@ function removeEntry(button) {
     // 삭제 로직
 }
 
-// `applicantListInit` 함수를 전역으로 등록
 window.applicantListInit = applicantListInit;

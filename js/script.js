@@ -3,10 +3,9 @@ export const times = [2, 2, 2, 2, 1];
 export let settingData = {};
 
 function loadInitialPage() {
-    const cookies = document.cookie.split("; ");
-    const reservationDataCookie = cookies.find(cookie => cookie.startsWith("reservationData="));
+    const reservationData = localStorage.getItem("reservationData");
 
-    if (reservationDataCookie)
+    if (reservationData)
         loadPage('register.html', document.querySelector(".menu button:nth-child(2)"));
     else
         loadPage('setting.html', document.querySelector(".menu button:nth-child(1)"));
@@ -42,7 +41,6 @@ function loadScript(src, callback) {
     if (existingScript) existingScript.remove();
 
     const script = document.createElement("script");
-
     script.type = "module";
     script.src = src;
     script.onload = callback;
@@ -60,11 +58,11 @@ function updateMenuSelection(selectedButton) {
     selectedButton.classList.remove("unselected");
 }
 
-function resetCookie() {
+function resetLocalStorage() {
     const confirmReset = confirm("모든 데이터가 리셋됩니다. 진행하시겠습니까?");
 
     if (confirmReset) {
-        document.cookie = "reservationData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        localStorage.removeItem("reservationData");
         alert("리셋되었습니다.");
         loadInitialPage();
     } else {
@@ -74,5 +72,5 @@ function resetCookie() {
 
 window.onload = loadInitialPage;
 window.loadPage = loadPage;
-window.resetCookie = resetCookie;
+window.resetLocalStorage = resetLocalStorage;
 window.loadInitialPage = loadInitialPage;

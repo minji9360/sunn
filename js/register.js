@@ -1,4 +1,5 @@
 import { days, settingData } from './script.js';
+
 export let applicantId = parseInt(localStorage.getItem("applicantId")) || 0;
 let selectedTimes = {};
 
@@ -6,31 +7,29 @@ export function registerInit() {
     initializeSeatSelection();
 }
 
-function loadSeatInfoFromCookie() {
-    const cookies = document.cookie.split("; ");
-    const reservationDataCookie = cookies.find(cookie => cookie.startsWith("reservationData="));
-    if (!reservationDataCookie) {
+function loadSeatInfoFromLocalStorage() {
+    const reservationData = localStorage.getItem("reservationData");
+
+    if (!reservationData) {
         console.warn("저장된 seatInfo 데이터가 없습니다.");
         return {};
     }
 
-    const reservationData = JSON.parse(decodeURIComponent(reservationDataCookie.split("=")[1]));
-    return reservationData.seatInfo || {};
+    const parsedData = JSON.parse(reservationData);
+    return parsedData.seatInfo || {};
 }
 
 function initializeSeatSelection() {
-    const seatInfo = loadSeatInfoFromCookie();
+    const seatInfo = loadSeatInfoFromLocalStorage();
 
     document.querySelectorAll("td[data-time]").forEach(cell => {
         const time = cell.getAttribute("data-time");
 
         if (!seatInfo[time]) {
             cell.classList.add("disabled");
-            cell.classList.remove("clickable");
             cell.style.pointerEvents = "none";
         } else {
             cell.classList.remove("disabled");
-            cell.classList.add("clickable");
             cell.style.pointerEvents = "";
             cell.addEventListener("click", () => {
                 if (cell.classList.toggle("selected")) {
@@ -45,6 +44,7 @@ function initializeSeatSelection() {
 
 function register() {
     const name = document.getElementById("nameInput").value;
+
     if (!name) {
         alert("이름을 입력해주세요.");
         return;

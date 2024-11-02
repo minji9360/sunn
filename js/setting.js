@@ -23,25 +23,21 @@ function createOptions() {
 }
 
 function loadSettingData() {
-    const cookies = document.cookie.split("; ");
-    const reservationDataCookie = cookies.find(cookie => cookie.startsWith("reservationData="));
+    const reservationData = localStorage.getItem("reservationData");
 
-    if (!reservationDataCookie) {
+    if (!reservationData) {
         console.log("저장된 데이터가 없습니다.");
         return;
     }
 
-    const reservationData = JSON.parse(decodeURIComponent(reservationDataCookie.split("=")[1]));
-    const seatInfo = reservationData.seatInfo;
+    const parsedData = JSON.parse(reservationData);
+    const seatInfo = parsedData.seatInfo;
 
     for (const inputId in seatInfo) {
         const selectElement = document.getElementById(inputId);
-        if (selectElement) {
-            selectElement.value = seatInfo[inputId];
-            console.log(`설정: ${inputId} = ${seatInfo[inputId]}`);
-        } else {
-            console.warn(`해당 ID를 가진 요소가 없습니다: ${inputId}`);
-        }
+
+        if (selectElement) selectElement.value = seatInfo[inputId];
+        else console.warn(`해당 ID를 가진 요소가 없습니다: ${inputId}`);
     }
 
     console.log("데이터가 화면에 로드되었습니다.");
@@ -72,10 +68,9 @@ function saveSettingData() {
         seatInfo: seatInfo
     };
 
-    document.cookie = `reservationData=${encodeURIComponent(JSON.stringify(dataToSave))}; path=/; max-age=31536000`;
-
+    localStorage.setItem("reservationData", JSON.stringify(dataToSave));
     alert("등록 가능 인원 정보가 저장되었습니다.");
-    console.log("등록 가능 인원 정보가 쿠키에 저장되었습니다:", dataToSave);
+    console.log("등록 가능 인원 정보가 localStorage에 저장되었습니다:", dataToSave);
 }
 
 window.settingInit = settingInit;
