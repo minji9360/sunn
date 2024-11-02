@@ -87,7 +87,7 @@ function register() {
     const registerData = {
         id: applicantId
         , name: name
-        , timeInfo: selectedTimes
+        , timeInfo: { ...selectedTimes }
         , createdAt: getCurrDateTime()
         , updatedAt: getCurrDateTime()
     };
@@ -99,6 +99,12 @@ function register() {
 
     applicantId += 1;
     localStorage.setItem("applicantId", applicantId);
+
+    selectedTimes = {};
+    document.querySelectorAll("td[data-time].selected").forEach(cell => {
+        cell.classList.remove("selected");
+    });
+
     isRegistering = false;
 }
 
