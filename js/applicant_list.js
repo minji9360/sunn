@@ -1,3 +1,5 @@
+import { applicantId } from './register.js';
+
 const dayMapping = {
     "mon": "월",
     "tue": "화",
@@ -5,6 +7,10 @@ const dayMapping = {
     "thu": "목",
     "fri": "금"
 };
+
+export function applicantListInit() {
+    renderApplicantTable();
+}
 
 function loadSeatInfoFromCookie() {
     const cookies = document.cookie.split("; ");
@@ -18,6 +24,11 @@ function loadSeatInfoFromCookie() {
 function renderApplicantTable() {
     const seatInfo = loadSeatInfoFromCookie();
     const applicantTableBody = document.getElementById("applicantTableBody");
+
+    if (!applicantTableBody) {
+        console.error("applicantTableBody 요소를 찾을 수 없습니다.");
+        return;
+    }
 
     applicantTableBody.innerHTML = "";
 
@@ -56,7 +67,9 @@ function renderApplicantTable() {
 }
 
 function removeEntry(button) {
+    console.log("삭제 버튼 클릭");
     // 삭제 로직
 }
 
-renderApplicantTable();
+// `applicantListInit` 함수를 전역으로 등록
+window.applicantListInit = applicantListInit;

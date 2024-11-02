@@ -1,9 +1,8 @@
-function createOptions() {
-    const options = [];
-    for (let i = 0; i <= 10; i++) {
-        options.push(`<option value="${i}">${i}</option>`);
-    }
-    return options.join("");
+import { days, times } from './script.js';
+
+export function settingInit() {
+    initializeSelectOptions();
+    loadSettingData();
 }
 
 function initializeSelectOptions() {
@@ -11,6 +10,16 @@ function initializeSelectOptions() {
         select.innerHTML = createOptions();
         select.value = "0";
     });
+}
+
+function createOptions() {
+    const options = [];
+
+    for (let i = 0; i <= 10; i++) {
+        options.push(`<option value="${i}">${i}</option>`);
+    }
+
+    return options.join("");
 }
 
 function loadSettingData() {
@@ -44,9 +53,11 @@ function saveSettingData() {
 
     days.forEach((day, index) => {
         settingData[day] = {};
+
         for (let i = 1; i <= times[index]; i++) {
             const inputId = `${day}${i}`;
             const inputElement = document.getElementById(inputId);
+
             if (inputElement) {
                 const value = inputElement.value || "0";
                 settingData[day][i] = value;
@@ -63,8 +74,9 @@ function saveSettingData() {
 
     document.cookie = `reservationData=${encodeURIComponent(JSON.stringify(dataToSave))}; path=/; max-age=31536000`;
 
-    alert("좌석 정보가 저장되었습니다.");
+    alert("등록 가능 인원 정보가 저장되었습니다.");
+    console.log("등록 가능 인원 정보가 쿠키에 저장되었습니다:", dataToSave);
 }
 
-initializeSelectOptions();
-loadSettingData();
+window.settingInit = settingInit;
+window.saveSettingData = saveSettingData;

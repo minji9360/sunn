@@ -1,4 +1,10 @@
-window.selectedTimes = window.selectedTimes || {};
+import { days, settingData } from './script.js';
+export let applicantId = parseInt(localStorage.getItem("applicantId")) || 0;
+let selectedTimes = {};
+
+export function registerInit() {
+    initializeSeatSelection();
+}
 
 function loadSeatInfoFromCookie() {
     const cookies = document.cookie.split("; ");
@@ -9,7 +15,6 @@ function loadSeatInfoFromCookie() {
     }
 
     const reservationData = JSON.parse(decodeURIComponent(reservationDataCookie.split("=")[1]));
-    console.log("불러온 seatInfo 데이터:", reservationData.seatInfo);
     return reservationData.seatInfo || {};
 }
 
@@ -21,11 +26,9 @@ function initializeSeatSelection() {
 
         if (!seatInfo[time]) {
             cell.classList.add("disabled");
-            cell.classList.remove("clickable");
             cell.style.pointerEvents = "none";
         } else {
             cell.classList.remove("disabled");
-            cell.classList.add("clickable");
             cell.style.pointerEvents = "";
             cell.addEventListener("click", () => {
                 if (cell.classList.toggle("selected")) {
@@ -47,6 +50,12 @@ function register() {
 
     const selectedList = Object.keys(selectedTimes).join(", ");
     alert(`${name}님 등록 완료`);
+
+    applicantId += 1;
+    localStorage.setItem("applicantId", applicantId);
 }
 
-initializeSeatSelection();
+// 전역에 등록
+window.registerInit = registerInit;
+window.applicantId = applicantId;
+window.register = register;

@@ -1,6 +1,6 @@
-const days = ["mon", "tue", "wed", "thu", "fri"];
-const times = [2, 2, 2, 2, 1];
-let settingData = {};
+export const days = ["mon", "tue", "wed", "thu", "fri"];
+export const times = [2, 2, 2, 2, 1];
+export let settingData = {};
 
 function loadInitialPage() {
     const cookies = document.cookie.split("; ");
@@ -17,7 +17,15 @@ function loadPage(page, buttonElement) {
         .then(response => response.text())
         .then(data => {
             document.getElementById("content").innerHTML = data;
-            loadScript(`js/${page.replace('.html', '.js')}`);
+
+            const scriptName = page.replace('.html', '.js');
+            const initFunctionName = convertToCamelCase(scriptName.split('/').pop().replace('.js', '')) + 'Init';
+
+            loadScript(`js/${scriptName}`, () => {
+                if (typeof window[initFunctionName] === 'function') window[initFunctionName](); // 초기화 함수 실행
+                else console.warn(`${initFunctionName} 함수가 없습니다.`);
+            });
+
             updateMenuSelection(buttonElement);
         })
         .catch(error => {
@@ -25,9 +33,20 @@ function loadPage(page, buttonElement) {
         });
 }
 
-function loadScript(src) {
+function convertToCamelCase(str) {
+    return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+function loadScript(src, callback) {
+    const existingScript = document.querySelector(`script[src="${src}"]`);
+    if (existingScript) existingScript.remove();
+
     const script = document.createElement("script");
+
+    script.type = "module";
     script.src = src;
+    script.onload = callback;
+
     document.head.appendChild(script);
 }
 
@@ -46,13 +65,14 @@ function resetCookie() {
 
     if (confirmReset) {
         document.cookie = "reservationData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        alert("쿠키가 리셋되었습니다.");
-
+        alert("리셋되었습니다.");
         loadInitialPage();
     } else {
         alert("리셋이 취소되었습니다.");
     }
 }
 
-
 window.onload = loadInitialPage;
+window.loadPage = loadPage;
+window.resetCookie = resetCookie;
+window.loadInitialPage = loadInitialPage;
