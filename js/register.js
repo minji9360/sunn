@@ -26,9 +26,11 @@ function initializeSeatSelection() {
 
         if (!seatInfo[time]) {
             cell.classList.add("disabled");
+            cell.classList.remove("clickable");
             cell.style.pointerEvents = "none";
         } else {
             cell.classList.remove("disabled");
+            cell.classList.add("clickable");
             cell.style.pointerEvents = "";
             cell.addEventListener("click", () => {
                 if (cell.classList.toggle("selected")) {
