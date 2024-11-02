@@ -1,7 +1,7 @@
 import { settingData } from './script.js';
 
 export let applicantId = parseInt(localStorage.getItem("applicantId")) || 0;
-export let applicantList = [];
+export let applicantList = JSON.parse(localStorage.getItem("applicantList")) || [];
 let selectedTimes = {};
 let isListenerAdded = false;
 let isRegistering = false;
@@ -54,7 +54,7 @@ function initializeSeatSelection() {
             cell.style.pointerEvents = "";
             cell.addEventListener("click", () => {
                 if (cell.classList.toggle("selected"))
-                    selectedTimes[time] = true;
+                    selectedTimes[time] = 0;
                 else
                     delete selectedTimes[time];
             });
