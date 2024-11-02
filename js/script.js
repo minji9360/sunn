@@ -1,5 +1,5 @@
 export const days = ["mon", "tue", "wed", "thu", "fri"];
-export const times = [2, 2, 2, 2, 1];
+export const times = [2, 2, 2, 2, 2];
 export let settingData = JSON.parse(localStorage.getItem("settingData")) || {};
 
 function loadInitialPage() {
@@ -65,10 +65,11 @@ function resetLocalStorage() {
         localStorage.removeItem("applicantId");
         localStorage.removeItem("applicantList");
         localStorage.removeItem("settingData");
+        localStorage.removeItem("reservationData");
 
         alert("리셋되었습니다.");
 
-        loadInitialPage();
+        location.reload();
     } else {
         alert("리셋이 취소되었습니다.");
     }
