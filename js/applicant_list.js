@@ -1,4 +1,4 @@
-import { applicantId } from './register.js';
+import { settingData } from './script.js';
 
 const dayMapping = {
     "mon": "월",
@@ -12,14 +12,8 @@ export function applicantListInit() {
     renderApplicantTable();
 }
 
-function loadSeatInfoFromLocalStorage() {
-    const reservationData = localStorage.getItem("reservationData");
-
-    return reservationData ? JSON.parse(reservationData).seatInfo || {} : {};
-}
-
 function renderApplicantTable() {
-    const seatInfo = loadSeatInfoFromLocalStorage();
+    const seatInfo = settingData;
     const applicantTableBody = document.getElementById("applicantTableBody");
 
     if (!applicantTableBody) {

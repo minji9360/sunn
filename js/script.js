@@ -1,11 +1,9 @@
 export const days = ["mon", "tue", "wed", "thu", "fri"];
 export const times = [2, 2, 2, 2, 1];
-export let settingData = {};
+export let settingData = JSON.parse(localStorage.getItem("settingData")) || {};
 
 function loadInitialPage() {
-    const reservationData = localStorage.getItem("reservationData");
-
-    if (reservationData)
+    if (Object.keys(settingData).length > 0)
         loadPage('register.html', document.querySelector(".menu button:nth-child(2)"));
     else
         loadPage('setting.html', document.querySelector(".menu button:nth-child(1)"));
@@ -21,8 +19,10 @@ function loadPage(page, buttonElement) {
             const initFunctionName = convertToCamelCase(scriptName.split('/').pop().replace('.js', '')) + 'Init';
 
             loadScript(`js/${scriptName}`, () => {
-                if (typeof window[initFunctionName] === 'function') window[initFunctionName](); // 초기화 함수 실행
-                else console.warn(`${initFunctionName} 함수가 없습니다.`);
+                if (typeof window[initFunctionName] === 'function')
+                    window[initFunctionName]();
+                else
+                    console.warn(`${initFunctionName} 함수가 없습니다.`);
             });
 
             updateMenuSelection(buttonElement);
@@ -62,8 +62,12 @@ function resetLocalStorage() {
     const confirmReset = confirm("모든 데이터가 리셋됩니다. 진행하시겠습니까?");
 
     if (confirmReset) {
-        localStorage.removeItem("reservationData");
+        localStorage.removeItem("applicantId");
+        localStorage.removeItem("applicantList");
+        localStorage.removeItem("settingData");
+
         alert("리셋되었습니다.");
+
         loadInitialPage();
     } else {
         alert("리셋이 취소되었습니다.");

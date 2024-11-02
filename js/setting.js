@@ -1,4 +1,4 @@
-import { days, times } from './script.js';
+import { days, times, settingData } from './script.js';
 
 export function settingInit() {
     initializeSelectOptions();
@@ -23,29 +23,26 @@ function createOptions() {
 }
 
 function loadSettingData() {
-    const reservationData = localStorage.getItem("reservationData");
+    const savedData = localStorage.getItem("settingData");
 
-    if (!reservationData) {
+    if (savedData) {
+        Object.assign(settingData, JSON.parse(savedData));
+
+        for (const inputId in settingData) {
+            const selectElement = document.getElementById(inputId);
+
+            if (selectElement)
+                selectElement.value = settingData[inputId];
+            else
+                console.warn(`해당 ID를 가진 요소가 없습니다: ${inputId}`);
+        }
+    } else {
         console.log("저장된 데이터가 없습니다.");
-        return;
     }
-
-    const parsedData = JSON.parse(reservationData);
-    const seatInfo = parsedData.seatInfo;
-
-    for (const inputId in seatInfo) {
-        const selectElement = document.getElementById(inputId);
-
-        if (selectElement) selectElement.value = seatInfo[inputId];
-        else console.warn(`해당 ID를 가진 요소가 없습니다: ${inputId}`);
-    }
-
-    console.log("데이터가 화면에 로드되었습니다.");
 }
 
 function saveSettingData() {
     let seatInfo = {};
-    let settingData = {};
 
     days.forEach((day, index) => {
         settingData[day] = {};
@@ -63,14 +60,9 @@ function saveSettingData() {
         }
     });
 
-    const dataToSave = {
-        seatsData: settingData,
-        seatInfo: seatInfo
-    };
+    localStorage.setItem("settingData", JSON.stringify(seatInfo));
 
-    localStorage.setItem("reservationData", JSON.stringify(dataToSave));
     alert("등록 가능 인원 정보가 저장되었습니다.");
-    console.log("등록 가능 인원 정보가 localStorage에 저장되었습니다:", dataToSave);
 }
 
 window.settingInit = settingInit;
