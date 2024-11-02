@@ -3,9 +3,34 @@ import { settingData } from './script.js';
 export let applicantId = parseInt(localStorage.getItem("applicantId")) || 0;
 export let applicantList = [];
 let selectedTimes = {};
+let isListenerAdded = false;
+let isRegistering = false;
+let isComposing = false;
 
 export function registerInit() {
+    const inputElement = document.getElementById("nameInput");
+
     initializeSeatSelection();
+
+    if (inputElement && !isListenerAdded) {
+        inputElement.addEventListener("compositionstart", () => {
+            isComposing = true;
+        });
+
+        inputElement.addEventListener("compositionend", () => {
+            isComposing = false;
+        });
+
+        inputElement.addEventListener("keydown", (event) => {
+            if (event.key === 'Enter' && !isRegistering && !isComposing) {
+                register();
+            }
+        });
+
+        isListenerAdded = true;
+    } else if (!inputElement) {
+        console.error("nameInput 요소를 찾을 수 없습니다.");
+    }
 }
 
 function initializeSeatSelection() {
@@ -40,13 +65,22 @@ function initializeSeatSelection() {
 function register() {
     const name = document.getElementById("nameInput").value;
 
+    if (isRegistering) {
+        console.log("중복 호출 방지: register 함수가 이미 실행 중입니다.");
+        return;
+    }
+
+    isRegistering = true;
+
     if (!name) {
         alert("이름을 입력해주세요.");
+        isRegistering = false;
         return;
     }
 
     if (Object.keys(selectedTimes).length === 0) {
         alert("시간을 선택해주세요.");
+        isRegistering = false;
         return;
     }
 
@@ -65,6 +99,7 @@ function register() {
 
     applicantId += 1;
     localStorage.setItem("applicantId", applicantId);
+    isRegistering = false;
 }
 
 function getCurrDateTime() {
