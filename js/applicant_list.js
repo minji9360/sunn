@@ -44,7 +44,7 @@ function renderApplicantTable() {
                 <div>
                     <input type="checkbox">
                     <span>${applicant.name}</span>
-                    <button class="delete-btn" onclick="removeEntry(this, '${applicant.id}')">X</button>
+                    <button class="delete-btn" onclick="removeEntry(this, '${applicant.id}', '${key}')">X</button>
                 </div>
             `).join('') : '없음';
         };
@@ -68,9 +68,32 @@ function renderApplicantTable() {
     });
 }
 
-function removeEntry(button, applicantId) {
-    console.log(`삭제 버튼 클릭 - 신청자 ID: ${applicantId}`);
-    // 삭제 로직 추가 필요
+function removeEntry(button, applicantId, key) {
+    const day = key.slice(0, 3);
+    const timeNum = key.slice(3);
+    const realTime = timeNum === "1" ? "17:30" : "19:30";
+    const dayKorean = dayMapping[day];
+    const applicant = applicantList.find(applicant => applicant.id === parseInt(applicantId, 10));
+    const name = applicant ? applicant.name : "알 수 없음";
+    const confirmRemove = confirm(`${dayKorean}요일 ${realTime}의 ${name} 신청자를 삭제하시겠습니까?`);
+
+    if (confirmRemove) {
+        const updatedApplicantList = applicantList.map(applicant => {
+            if (applicant.id === parseInt(applicantId, 10)) {
+                delete applicant.timeInfo[key];
+
+                if (Object.keys(applicant.timeInfo).length === 0)
+                    return null;
+            }
+            return applicant;
+        }).filter(applicant => applicant !== null);
+
+        localStorage.setItem("applicantList", JSON.stringify(updatedApplicantList));
+
+        renderApplicantTable();
+    } else {
+        alert("취소되었습니다.");
+    }
 }
 
 window.applicantListInit = applicantListInit;
