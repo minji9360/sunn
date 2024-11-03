@@ -26,7 +26,7 @@ function renderApplicantTable() {
     applicantTableBody.innerHTML = "";
 
     Object.keys(seatInfo).forEach(key => {
-        const seatsRemaining = parseInt(seatInfo[key], 10);
+        let seatsRemaining = parseInt(seatInfo[key], 10);
 
         if (!seatsRemaining || isNaN(seatsRemaining)) {
             console.log(`잘못된 데이터 건너뜀: key=${key}, value=${seatInfo[key]}`);
@@ -38,6 +38,9 @@ function renderApplicantTable() {
         const realTime = timeNum === "1" ? "17:30" : "19:30";
         const dayKorean = dayMapping[day];
         const timeBasedApplicants = applicantList.filter(applicant => applicant.timeInfo[key] !== undefined);
+        const completedPaymentsCount = timeBasedApplicants.filter(applicant => applicant.timeInfo[key] === 2).length;
+
+        seatsRemaining -= completedPaymentsCount;
 
         const createApplicantEntry = (list, status) => {
             return list.length > 0 ? list.map(applicant => `
@@ -84,6 +87,21 @@ function updateStatus(applicantId, key, checkboxElement) {
     if (applicantIndex === -1) {
         console.warn(`ID ${applicantId}에 해당하는 신청자를 찾을 수 없습니다.`);
         return;
+    }
+
+    if (originalStatus === 1 && newStatus === 2) {
+        const savedSettingData = localStorage.getItem("settingData");
+        const seatInfo = savedSettingData ? JSON.parse(savedSettingData) : {};
+        let seatsRemaining = parseInt(seatInfo[key], 10);
+        const completedPaymentsCount = applicantList.filter(applicant => applicant.timeInfo[key] === 2).length;
+
+        seatsRemaining -= completedPaymentsCount;
+
+        if (seatsRemaining <= 0) {
+            alert(`${dayKorean}요일 ${realTime}이 마감되었습니다.`);
+            checkboxElement.checked = false;
+            return;
+        }
     }
 
     if (originalStatus === 2 && newStatus === 0) {
