@@ -4,9 +4,9 @@ export let settingData = JSON.parse(localStorage.getItem("settingData")) || {};
 
 function loadInitialPage() {
     if (Object.keys(settingData).length > 0)
-        loadPage('register.html', document.querySelector(".menu button:nth-child(2)"));
+        loadPage('register.html', document.querySelector(".menu button:nth-child(1)"));
     else
-        loadPage('setting.html', document.querySelector(".menu button:nth-child(1)"));
+        loadPage('setting.html', document.querySelector(".menu button:nth-child(3)"));
 }
 
 function loadPage(page, buttonElement) {

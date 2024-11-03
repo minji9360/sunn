@@ -73,7 +73,7 @@ body {
 /* 콘텐츠 */
 .content {
     margin-top: 20px;
-    padding: 0 20px;
+    padding: 0 10px;
 }
 
 /* 테이블 */
@@ -186,9 +186,8 @@ input[type="number"], input[type="text"] {
 /* 모바일 화면 */
 @media (max-width: 768px) {
     .menu {
-        width: 74%;
+        width: 95%;
         height: auto;
-        flex-direction: column;
         align-items: center;
     }
 
@@ -197,6 +196,10 @@ input[type="number"], input[type="text"] {
     }
     .gray-background {
         background-color: lightgray;
+    }
+
+    .registerTable {
+        width: 100%;
     }
 
     .applicantTable {
