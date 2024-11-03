@@ -43,13 +43,24 @@ function renderApplicantTable() {
         seatsRemaining -= completedPaymentsCount;
 
         const createApplicantEntry = (list, status) => {
-            return list.length > 0 ? list.map(applicant => `
-                <div>
-                    <input type="checkbox" onclick="updateStatus('${applicant.id}', '${key}', this)" ${status === applicant.timeInfo[key] ? '' : 'checked'}>
-                    <span>${applicant.name}</span>
-                    <button class="delete-btn" onclick="removeEntry(this, '${applicant.id}', '${key}')">X</button>
-                </div>
-            `).join('') : '없음';
+            return list.length > 0 ? list.map(applicant => {
+                const timeLeft = calculateTimeLeft(applicant.paymentStartTime);
+                const isTimeOver = timeLeft <= 0 && status === 1;
+                const timeDisplay = status === 1
+                    ? `<span style="color: ${isTimeOver ? 'gray' : 'red'}; font-size: small;" id="timer-${applicant.id}-${key}">
+                        ${isTimeOver ? '(시간초과)' : `남은 시간: ${formatTime(timeLeft)}`}
+                       </span>`
+                    : '';
+
+                return `
+                    <div>
+                        <input type="checkbox" onclick="updateStatus('${applicant.id}', '${key}', this)" ${status === applicant.timeInfo[key] ? '' : 'checked'}>
+                        <span>${applicant.name}</span>
+                        ${timeDisplay}
+                        <button class="delete-btn" onclick="removeEntry(this, '${applicant.id}', '${key}')">X</button>
+                    </div>
+                `;
+            }).join('') : '없음';
         };
 
         const row = document.createElement("tr");
@@ -68,6 +79,28 @@ function renderApplicantTable() {
             </td>
         `;
         applicantTableBody.appendChild(row);
+    });
+
+    setInterval(updateTimers, 1000);
+}
+
+function updateTimers() {
+    applicantList.forEach(applicant => {
+        for (const key in applicant.timeInfo) {
+            if (applicant.timeInfo[key] === 1) {
+                const timeLeft = calculateTimeLeft(applicant.paymentStartTime);
+                const timerElement = document.getElementById(`timer-${applicant.id}-${key}`);
+
+                if (timerElement) {
+                    if (timeLeft > 0) {
+                        timerElement.textContent = `남은 시간: ${formatTime(timeLeft)}`;
+                    } else {
+                        timerElement.textContent = '(시간초과)';
+                        timerElement.style.color = 'gray';
+                    }
+                }
+            }
+        }
     });
 }
 
@@ -113,11 +146,30 @@ function updateStatus(applicantId, key, checkboxElement) {
         }
     }
 
+    if (newStatus === 1) {
+        applicant.paymentStartTime = getCurrDateTime();
+    }
+
     applicant.timeInfo[key] = newStatus;
     applicant.updatedAt = getCurrDateTime();
     localStorage.setItem("applicantList", JSON.stringify(applicantList));
 
     renderApplicantTable();
+}
+
+function calculateTimeLeft(startTime) {
+    const start = new Date(startTime);
+    const now = new Date();
+    const diff = 10 * 60 * 1000 - (now - start);
+
+    return diff > 0 ? diff : 0;
+}
+
+function formatTime(ms) {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
 function getCurrDateTime() {
