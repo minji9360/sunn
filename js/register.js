@@ -35,32 +35,39 @@ export function registerInit() {
 
 function initializeSeatSelection() {
     const savedData = localStorage.getItem("settingData");
-
-    if (savedData)
-        Object.assign(settingData, JSON.parse(savedData));
-
-    const seatInfo = settingData;
+    const seatInfo = savedData ? JSON.parse(savedData) : {};
+    const applicants = JSON.parse(localStorage.getItem("applicantList")) || [];
 
     document.querySelectorAll("td[data-time]").forEach(cell => {
         const time = cell.getAttribute("data-time");
 
-        if (!seatInfo[time]) {
+        if (seatInfo[time]) {
+            const completedPaymentsCount = applicants.filter(applicant => applicant.timeInfo[time] === 2).length;
+            const remainingSeats = parseInt(seatInfo[time], 10) - completedPaymentsCount;
+
+            if (remainingSeats > 0) {
+                cell.classList.remove("disabled");
+                cell.classList.add("clickable");
+                cell.style.pointerEvents = "";
+                cell.addEventListener("click", () => {
+                    if (cell.classList.toggle("selected"))
+                        selectedTimes[time] = 0;
+                    else
+                        delete selectedTimes[time];
+                });
+            } else {
+                cell.classList.add("disabled");
+                cell.classList.remove("clickable");
+                cell.style.pointerEvents = "none";
+            }
+        } else {
             cell.classList.add("disabled");
             cell.classList.remove("clickable");
             cell.style.pointerEvents = "none";
-        } else {
-            cell.classList.remove("disabled");
-            cell.classList.add("clickable");
-            cell.style.pointerEvents = "";
-            cell.addEventListener("click", () => {
-                if (cell.classList.toggle("selected"))
-                    selectedTimes[time] = 0;
-                else
-                    delete selectedTimes[time];
-            });
         }
     });
 }
+
 
 function register() {
     const name = document.getElementById("nameInput").value;
