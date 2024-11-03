@@ -195,4 +195,23 @@ input[type="number"], input[type="text"] {
     .menuBtn {
         width: 100%;
     }
+    .gray-background {
+        background-color: lightgray;
+    }
+
+    .applicantTable {
+        width: auto;
+        table-layout: fixed;
+    }
+
+    .applicantTable th, td {
+        width: auto;
+        white-space: nowrap;
+    }
+
+    .applicantTable td {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }

@@ -44,20 +44,21 @@ function renderApplicantTable() {
 
         const createApplicantEntry = (list, status) => {
             return list.length > 0 ? list.map(applicant => {
-                const timeLeft = calculateTimeLeft(applicant.paymentStartTime);
-                const isTimeOver = timeLeft <= 0 && status === 1;
+                const paymentStartTime = applicant.timeInfo[key]?.paymentStartTime;
+                const timeLeft = paymentStartTime ? calculateTimeLeft(paymentStartTime) : 0;
+                const isTimeOver = status === 1 && timeLeft <= 0;
                 const timeDisplay = status === 1
-                    ? `<span style="color: ${isTimeOver ? 'gray' : 'red'}; font-size: small;" id="timer-${applicant.id}-${key}">
+                    ? `<div style="color: ${isTimeOver ? 'gray' : 'red'}; font-size: small; padding-left: 20px;" id="timer-${applicant.id}-${key}">
                         ${isTimeOver ? '(시간초과)' : `남은 시간: ${formatTime(timeLeft)}`}
-                       </span>`
+                       </div>`
                     : '';
 
                 return `
                     <div>
                         <input type="checkbox" onclick="updateStatus('${applicant.id}', '${key}', this)" ${status === applicant.timeInfo[key] ? '' : 'checked'}>
                         <span>${applicant.name}</span>
-                        ${timeDisplay}
                         <button class="delete-btn" onclick="removeEntry(this, '${applicant.id}', '${key}')">X</button>
+                        ${timeDisplay}
                     </div>
                 `;
             }).join('') : '없음';
@@ -65,16 +66,16 @@ function renderApplicantTable() {
 
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${dayKorean}</td>
-            <td>${realTime}</td>
-            <td>${seatsRemaining}</td>
-            <td style="text-align: left">
+            <td style="${seatsRemaining === 0 ? 'background-color: lightgray;' : ''}">${dayKorean}</td>
+            <td style="${seatsRemaining === 0 ? 'background-color: lightgray;' : ''}">${realTime}</td>
+            <td style="${seatsRemaining === 0 ? 'background-color: lightgray;' : ''}">${seatsRemaining}</td>
+            <td style="text-align: left; ${seatsRemaining === 0 ? 'background-color: lightgray;' : ''}">
                 ${createApplicantEntry(timeBasedApplicants.filter(applicant => applicant.timeInfo[key] === 0), 0)}
             </td>
-            <td style="text-align: left">
+            <td style="text-align: left; ${seatsRemaining === 0 ? 'background-color: lightgray;' : ''}">
                 ${createApplicantEntry(timeBasedApplicants.filter(applicant => applicant.timeInfo[key] === 1), 1)}
             </td>
-            <td style="text-align: left">
+            <td style="text-align: left; ${seatsRemaining === 0 ? 'background-color: lightgray;' : ''}">
                 ${createApplicantEntry(timeBasedApplicants.filter(applicant => applicant.timeInfo[key] === 2), 2)}
             </td>
         `;
@@ -94,6 +95,7 @@ function updateTimers() {
                 if (timerElement) {
                     if (timeLeft > 0) {
                         timerElement.textContent = `남은 시간: ${formatTime(timeLeft)}`;
+                        timerElement.style.color = 'red';
                     } else {
                         timerElement.textContent = '(시간초과)';
                         timerElement.style.color = 'gray';
