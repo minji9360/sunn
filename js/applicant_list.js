@@ -80,7 +80,6 @@ function updateStatus(applicantId, key, checkboxElement) {
     const realTime = timeNum === "1" ? "17:30" : "19:30";
     const dayKorean = dayMapping[day];
     const name = applicant.name || "알 수 없음";
-    const confirmReset = confirm(`${dayKorean}요일 ${realTime}의 ${name} 신청자를 대기 상태로 변경하시겠습니까?`);
 
     if (applicantIndex === -1) {
         console.warn(`ID ${applicantId}에 해당하는 신청자를 찾을 수 없습니다.`);
@@ -88,6 +87,8 @@ function updateStatus(applicantId, key, checkboxElement) {
     }
 
     if (originalStatus === 2 && newStatus === 0) {
+        const confirmReset = confirm(`${dayKorean}요일 ${realTime}의 ${name} 신청자를 대기 상태로 변경하시겠습니까?`);
+
         if (!confirmReset) {
             checkboxElement.checked = false;
             return;
