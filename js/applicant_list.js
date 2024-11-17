@@ -47,18 +47,17 @@ function renderApplicantTable() {
                 const paymentStartTime = applicant.timeInfo[key]?.paymentStartTime;
                 const timeLeft = paymentStartTime ? calculateTimeLeft(paymentStartTime) : 0;
                 const isTimeOver = status === 1 && timeLeft <= 0;
-                const timeDisplay = status === 1
-                    ? `<div style="color: ${isTimeOver ? 'gray' : 'red'}; font-size: small; padding-left: 20px;" id="timer-${applicant.id}-${key}">
-                        ${isTimeOver ? '(시간초과)' : `남은 시간: ${formatTime(timeLeft)}`}
-                       </div>`
-                    : '';
+                // const timeDisplay = status === 1
+                //     ? `<div style="color: ${isTimeOver ? 'gray' : 'red'}; font-size: small; padding-left: 20px;" id="timer-${applicant.id}-${key}">
+                //         ${isTimeOver ? '(시간초과)' : `남은 시간: ${formatTime(timeLeft)}`}
+                //        </div>`
+                //     : '';
 
                 return `
                     <div>
                         <input type="checkbox" onclick="updateStatus('${applicant.id}', '${key}', this)" ${status === applicant.timeInfo[key] ? '' : 'checked'}>
                         <span>${applicant.name}</span>
                         <button class="delete-btn" onclick="removeEntry(this, '${applicant.id}', '${key}')">X</button>
-                        ${timeDisplay}
                     </div>
                 `;
             }).join('') : '없음';
@@ -82,7 +81,7 @@ function renderApplicantTable() {
         applicantTableBody.appendChild(row);
     });
 
-    setInterval(updateTimers, 1000);
+    // setInterval(updateTimers, 1000);
 }
 
 function updateTimers() {
