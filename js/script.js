@@ -1,5 +1,5 @@
-export const days = ["mon", "tue", "wed", "thu", "fri"];
-export const times = [2, 2, 2, 2, 2];
+export const days = ["mon", "tue", "wed", "thu", "fri", "sat"];
+export const times = [2, 2, 2, 2, 2, 2];
 export let settingData = JSON.parse(localStorage.getItem("settingData")) || {};
 
 function loadInitialPage() {
